@@ -25,25 +25,26 @@ public class MainServlet extends HttpServlet {
             final String path = req.getRequestURI();
             final String method = req.getMethod();
             // primitive routing
-            if (method.equals("GET") && path.equals("/api/posts")) {
-                controller.all(resp);
-                return;
-            }
-            if (method.equals("GET") && path.matches("/api/posts/\\d+")) {
-                // easy way
+            if (path.equals("/api/posts/\\d+")) {
                 final long id = Long.parseLong(path.substring(path.lastIndexOf("/")));
-                controller.getById(id, resp);
-                return;
+                switch (method) {
+                    case ("GET") :
+                        controller.getById(id, resp);
+                        break;
+                    case ("DELETE") :
+                        controller.removeById(id, resp);
+                        break;
+                }
             }
-            if (method.equals("POST") && path.equals("/api/posts")) {
-                controller.save(req.getReader(), resp);
-                return;
-            }
-            if (method.equals("DELETE") && path.matches("/api/posts/\\d+")) {
-                // easy way
-                final long id = Long.parseLong(path.substring(path.lastIndexOf("/")));
-                controller.removeById(id, resp);
-                return;
+            if (path.equals("/api/posts")) {
+                switch (method) {
+                    case ("GET") :
+                        controller.all(resp);
+                        break;
+                    case ("POST") :
+                        controller.save(req.getReader(), resp);
+                        break;
+                }
             }
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {

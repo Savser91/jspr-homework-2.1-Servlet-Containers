@@ -4,7 +4,7 @@ import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 import ru.netology.repository.PostRepository;
 
-import java.util.List;
+import java.util.Map;
 
 public class PostService {
     private final PostRepository repository;
@@ -13,7 +13,7 @@ public class PostService {
         this.repository = repository;
     }
 
-    public List<Post> all() {
+    public Map<Long, Post> all() {
         return repository.all();
     }
 
@@ -25,7 +25,7 @@ public class PostService {
         return repository.save(post);
     }
 
-    public void removeById(long id) {
-        repository.removeById(id);
+    public boolean removeById(long id) {
+        return repository.removeById(id);
     }
 }
