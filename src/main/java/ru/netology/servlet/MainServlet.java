@@ -24,32 +24,33 @@ public class MainServlet extends HttpServlet {
         try {
             final String path = req.getRequestURI();
             final String method = req.getMethod();
-            // primitive routing
-            if (path.equals("/api/posts/\\d+")) {
-                final long id = Long.parseLong(path.substring(path.lastIndexOf("/")));
-                switch (method) {
-                    case ("GET") :
+            final long id = getId(path);
+            switch (method) {
+                case ("GET") :
+                    if (id > 0) {
                         controller.getById(id, resp);
-                        break;
-                    case ("DELETE") :
-                        controller.removeById(id, resp);
-                        break;
-                }
-            }
-            if (path.equals("/api/posts")) {
-                switch (method) {
-                    case ("GET") :
+                    } else
                         controller.all(resp);
+                    break;
+                    case ("DELETE") :
+                        if (id > 0) {
+                            controller.removeById(id, resp);
+                        }
                         break;
                     case ("POST") :
-                        controller.save(req.getReader(), resp);
+                        if (id == -1) {
+                            controller.save(req.getReader(), resp);
+                        }
                         break;
-                }
             }
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
+    }
+
+    private long getId(String path) {
+        return  path.matches("/api/posts/\\d+") ?
+                Long.parseLong(path.substring(path.lastIndexOf("/") + 1)) : -1;
     }
 }
