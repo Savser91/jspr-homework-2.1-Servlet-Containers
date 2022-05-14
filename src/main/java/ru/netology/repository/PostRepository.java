@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PostRepository {
 
     private final Map<Long, Post> postMap = new ConcurrentHashMap<>();
-    private final AtomicLong counter = new AtomicLong(0);
+    private final AtomicLong counter = new AtomicLong(1);
 
     public PostRepository() {
     }
@@ -33,20 +33,21 @@ public class PostRepository {
             post.setId(id);
             postMap.put(id, post);
         } else {
+            id = counter.getAndIncrement();
+            post.setId(id);
             if (postMap.containsKey(post.getId())) {
                 postMap.replace(post.getId(), post);
             } else {
-                throw new NotFoundException();
+                postMap.put(id, post);
             }
         }
         return post;
     }
 
-    public boolean removeById(long id) {
+    public void removeById(long id) {
         if (postMap.containsKey(id)) {
             postMap.remove(id);
-            return true;
         } else
-            return false;
+            throw new NotFoundException();
     }
 }
