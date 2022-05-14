@@ -13,10 +13,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class PostRepository {
 
     private final Map<Long, Post> postMap = new ConcurrentHashMap<>();
-    private final AtomicLong counter = new AtomicLong();
+    private final AtomicLong counter = new AtomicLong(0);
 
     public PostRepository() {
-        counter.set(1);
     }
 
     public List<Post> all() {
@@ -31,6 +30,7 @@ public class PostRepository {
         long id = post.getId();
         if (id == 0) {
             id = counter.getAndIncrement();
+            post.setId(id);
             postMap.put(id, post);
         } else {
             if (postMap.containsKey(post.getId())) {
