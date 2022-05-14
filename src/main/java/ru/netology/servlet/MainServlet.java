@@ -4,13 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.configuration.JavaConfiguration;
 import ru.netology.controller.PostController;
-<<<<<<< HEAD
 import ru.netology.exception.NotFoundException;
-import ru.netology.repository.PostRepository;
-import ru.netology.service.PostService;
-=======
->>>>>>> 158d5ee5412e4c8c0211c994f26d4277befbfa27
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,17 +45,12 @@ public class MainServlet extends HttpServlet {
                         break;
             }
         } catch (Exception e) {
-<<<<<<< HEAD
             e.printStackTrace();
             if (e instanceof NotFoundException) {
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             } else {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
-=======
-            e.printStackTrace();z
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
->>>>>>> 158d5ee5412e4c8c0211c994f26d4277befbfa27
         }
     }
 

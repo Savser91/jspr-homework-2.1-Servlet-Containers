@@ -43,7 +43,7 @@ public class PostController {
     public void removeById(long id, HttpServletResponse response) {
         response.setContentType(APPLICATION_JSON);
         if (service.removeById(id)) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
