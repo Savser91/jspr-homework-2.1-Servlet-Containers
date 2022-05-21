@@ -33,12 +33,10 @@ public class PostRepository {
             post.setId(id);
             postMap.put(id, post);
         } else {
-            id = counter.getAndIncrement();
-            post.setId(id);
             if (postMap.containsKey(post.getId())) {
                 postMap.replace(post.getId(), post);
             } else {
-                postMap.put(id, post);
+                throw new NotFoundException();
             }
         }
         return post;

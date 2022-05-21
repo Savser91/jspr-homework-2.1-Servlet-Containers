@@ -16,7 +16,7 @@ POST http://localhost:8080/api/posts
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 3,
   "content": "Post_1"
 }
 
